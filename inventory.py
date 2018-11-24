@@ -9,7 +9,10 @@ last_row = 0
 user_input = ''
 last_key = ''
 last_value = ''
+last_selected_item = ''
+last_selected_location = ''
 username = ''
+item_to_find = ''
 
 # Function for saving a dictionary to a file
 
@@ -56,7 +59,7 @@ class Inventory(tk.Tk):
 
         self.frames = {}
 
-        for F in (Login, Register, MainMenu, ItemsShow, LocationsShow, ItemsPrivate, LocationsConfirm):
+        for F in (Login, Register, MainMenu, ItemsShow, LocationsShow, ItemsPrivate, ItemsSearch, ItemsFound, LocationsConfirm):
 
             frame = F(container, self)
 
@@ -284,19 +287,22 @@ class MainMenu(tk.Frame):
         
         label_empty_row = tk.Label(self).grid(row=2,column=1)
 
-        button_items = tk.Button(self, text="Materiały", font='Arial 10', width=60, height=8, relief='groove',
+        button_items = tk.Button(self, text="Materiały", font='Arial 10', width=60, height=6, relief='groove',
                             command=lambda: self.controller.show_frame(ItemsShow)).grid(row=3,column=1)
 
-        button_locations = tk.Button(self, text="Magazyny", font='Arial 10', width=60, height=8, relief='groove',
-                            command=lambda: self.controller.show_frame(LocationsShow)).grid(row=4, column=1)
+        button_items_search = tk.Button(self, text="Wyszukiwarka", font='Arial 10', width=60, height=6, relief='groove',
+                                 command=lambda: self.controller.show_frame(ItemsSearch)).grid(row=4, column=1)
 
-        button_private = tk.Button(self, text="Moje rezerwacje", font='Arial 10', width=60, height=8, relief='groove',
-                                     command=lambda: self.controller.show_frame(ItemsPrivate)).grid(row=5, column=1)
+        button_locations = tk.Button(self, text="Magazyny", font='Arial 10', width=60, height=6, relief='groove',
+                            command=lambda: self.controller.show_frame(LocationsShow)).grid(row=5, column=1)
 
-        label_empty_row = tk.Label(self).grid(row=6,column=1)
+        button_private = tk.Button(self, text="Moje rezerwacje", font='Arial 10', width=60, height=6, relief='groove',
+                                     command=lambda: self.controller.show_frame(ItemsPrivate)).grid(row=6, column=1)
+
+        label_empty_row = tk.Label(self).grid(row=7,column=1)
 
         button_quit = tk.Button(self, text="Wyloguj", font='Arial 10', width=30, height=4, relief='groove',
-                            command=lambda: self.controller.show_frame(Login)).grid(row=7, column=1)
+                            command=lambda: self.controller.show_frame(Login)).grid(row=8, column=1)
 
 
 class ItemsPrivate(tk.Frame):
@@ -751,6 +757,226 @@ class ItemsShow(tk.Frame):
                         command=lambda: self.controller.show_frame(MainMenu)).grid(row=20, column=0, columnspan=7)
 
 
+class ItemsSearch(tk.Frame):
+
+    def __init__(self, parent, controller):
+        self.controller = controller
+        tk.Frame.__init__(self, parent, height=50)
+
+        self.bind("<<ShowFrame>>", self.on_show_frame)
+        self.controller = controller
+
+    def on_show_frame(self, event):
+
+        def find_item(user_input):
+
+            item = user_input.get()
+
+            global item_to_find
+            item_to_find = item
+            self.controller.show_frame(ItemsFound)
+
+        for widget in self.winfo_children():
+            widget.destroy()
+
+        global username
+
+        label_username = tk.Label(self, text='Logged in as: {}'.format(username)).grid(row=0, column=0, sticky='w')
+
+        label_header = tk.Label(self, text="WYSZUKIWARKA", font='Arial 15 bold', width=60, height=5,
+                                relief='groove').grid(row=1, column=0, columnspan=2)
+        label_empty_row = tk.Label(self).grid(row=2, column=1)
+
+        # Buttons for adding a new location
+
+        the_input_search = tk.Entry(self, width=50)
+        the_input_search.grid(row=3, column=0, columnspan=2)
+
+        button_search = tk.Button(self, text="Szukaj", width=50, height=3, relief='groove',
+                                command=lambda: find_item(the_input_search)).grid(row=4, column=0,
+                                                                                           columnspan=2)
+
+        label_empty_row = tk.Label(self).grid(row=5, column=1)
+
+        button_back = tk.Button(self, text="Wróć", width=30, height=3, relief='groove',
+                                command=lambda: self.controller.show_frame(MainMenu)).grid(row=20, column=0,
+                                                                                           columnspan=2)
+
+
+class ItemsFound(tk.Frame):
+
+    def __init__(self, parent, controller):
+        self.controller = controller
+        tk.Frame.__init__(self, parent, height=50)
+
+        self.bind("<<ShowFrame>>", self.on_show_frame)
+
+    def on_show_frame(self, event):
+
+        def select_search_result(location, item):
+
+            global last_selected_item
+            global last_selected_location
+
+            def print_buttons(row, key, item):
+
+                label_header = tk.Label(self, text = 'Zmiana ilości', font="Arial 10", width=30, relief='groove').grid(row=row,column=0,columnspan=4)
+
+                the_input_quantity = tk.Entry(self, width=3)
+                the_input_quantity.grid(row=row+1,column=0)
+                label_add = tk.Button(self, text = "+", relief='groove',
+                            command=lambda: add_quantity(key, item, the_input_quantity)).grid(row=row+1,column=1)
+                the_input_remove = tk.Entry(self, width=3)
+                label_subtract = tk.Button(self, text = "-", relief='groove',
+                            command=lambda: subtract_quantity(key, item, the_input_quantity)).grid(row=row+1,column=2)
+                label_reserve = tk.Button(self, text="Zarezerwuj", relief='groove',
+                                         command=lambda: reserve_quantity(key, item, the_input_quantity)).grid(row=row+1,
+                                                                                                                 column=3)
+                label_delete = tk.Button(self, text="Usuń przedmiot", relief='groove', width=20,
+                                          command=lambda: delete_item(key, item)).grid(
+                    row=row+2,
+                    column=0, columnspan=4)
+
+            def add_quantity(user_location, user_item, user_quantity):
+
+                quantity = user_quantity.get()
+                if quantity.isdecimal():
+                    output_list = load_obj('item_location_data')
+                    output_list[user_location.lower()][user_item] = str(int(quantity) + int(output_list[user_location.lower()][user_item]))
+                    save_obj(output_list, 'item_location_data')
+                    self.controller.show_frame(ItemsFound)
+
+            def subtract_quantity(user_location, user_item, user_quantity):
+
+                quantity = user_quantity.get()
+                if quantity.isdecimal():
+                    output_list = load_obj('item_location_data')
+
+                    if int(output_list[user_location.lower()][user_item]) - int(quantity) > 0:
+                        output_list[user_location.lower()][user_item] = str(
+                            int(output_list[user_location.lower()][user_item]) - int(quantity))
+                    else:
+                        output_list[user_location.lower()].pop(user_item)
+
+                    save_obj(output_list, 'item_location_data')
+                    self.controller.show_frame(ItemsFound)
+
+            def reserve_quantity(user_location, user_item, user_quantity):
+
+                quantity = user_quantity.get()
+                if quantity.isdecimal():
+                    private_list = load_obj(username)
+
+                    if user_location.lower() not in private_list.keys():
+                        private_list[user_location.lower()] = {user_item: quantity}
+                    elif user_item not in private_list[user_location]:
+                        private_list[user_location.lower()][user_item] = quantity
+                    else:
+                        private_list[user_location.lower()][user_item] = str(
+                            int(quantity) + int(private_list[user_location.lower()][user_item]))
+
+                    save_obj(private_list, username)
+                    subtract_quantity(user_location, user_item, user_quantity)
+                    self.controller.show_frame(ItemsFound)
+
+            def delete_item(user_location, user_item):
+
+                output_list = load_obj('item_location_data')
+                output_list[user_location.lower()].pop(user_item)
+                save_obj(output_list, 'item_location_data')
+
+                for user in load_obj('users').keys():
+                    reservation_data = load_obj(user)
+                    if user_location in reservation_data.keys():
+                        if user_item in reservation_data[user_location]:
+                            reservation_data[user_location.lower()].pop(user_item)
+                    save_obj(reservation_data, user)
+                    self.controller.show_frame(ItemsFound)
+
+            last_selected_item = item
+            last_selected_location = location
+            self.controller.show_frame(ItemsFound)
+            print_buttons(buttons_row, location, item)
+
+        for widget in self.winfo_children():
+            widget.destroy()
+
+        global username
+        global item_to_find
+        global last_selected_item
+        global last_selected_location
+
+        item = item_to_find
+
+        column = 0
+
+        main_row = 3
+
+        data = load_obj('item_location_data')
+
+        for location in data.keys():
+
+            items_count = 0
+
+            row = 5
+
+            for listed_item in data[location].keys():
+
+                if item in listed_item:
+                    reserved = 0
+                    reserved_and_available = int(data[location][listed_item])
+                    quantity_all = reserved_and_available
+                    for user in load_obj('users').keys():
+                        reservation_data = load_obj(user)
+                        if location in reservation_data.keys():
+                            if listed_item in reservation_data[location]:
+                                reserved_and_available += int(reservation_data[location][listed_item])
+                    reserved = reserved_and_available - int(data[location][listed_item])
+
+                    if last_selected_item == listed_item and last_selected_location == location:
+
+                        label_item = tk.Button(self, text="{}  -  {} / {}  ({})".format(listed_item, quantity_all, reserved_and_available, reserved),
+                                    relief='groove', width=18, bg='blue', command=lambda i=location, j=listed_item: select_search_result(i, j)).grid(row=row, column=column)
+                        row += 1
+                        main_row = row
+                        items_count += 1
+
+                    else:
+                        label_item = tk.Button(self, text="{}  -  {} / {}  ({})".format(listed_item, quantity_all,
+                                                                                        reserved_and_available,
+                                                                                        reserved),
+                                               relief='groove', width=18,
+                                               command=lambda i=location, j=listed_item: select_search_result(i,
+                                                                                                              j)).grid(
+                            row=row, column=column)
+                        row += 1
+                        main_row = row
+                        items_count += 1
+            if items_count > 0:
+                label_location = tk.Label(self, text=location.upper(), relief='groove', width=20).grid(row=3, column=column)
+                label_empty_row = tk.Label(self).grid(row=4, column=1)
+
+
+            column += 1
+
+        label_username = tk.Label(self, text='Logged in as: {}'.format(username)).grid(row=0, column=0, sticky='w')
+
+        label_header = tk.Label(self, text="WYNIKI DLA \"{}\"".format(item_to_find), font='Arial 15 bold', width=60, height=5,
+                                relief='groove').grid(row=1, column=0, columnspan=column)
+
+        label_empty_row = tk.Label(self).grid(row=2, column=1)
+        label_empty_row = tk.Label(self).grid(row=main_row, column=1)
+        label_empty_row = tk.Label(self).grid(row=main_row+1, column=1)
+        buttons_row = main_row + 1
+        label_empty_row = tk.Label(self).grid(row=main_row+2, column=1)
+        label_empty_row = tk.Label(self).grid(row=main_row + 3, column=1)
+        label_empty_row = tk.Label(self).grid(row=main_row + 4, column=1)
+
+        button_back = tk.Button(self, text="Wróć", width=30, height=3, relief='groove',
+                                command=lambda: self.controller.show_frame(MainMenu)).grid(row=main_row+5, column=0,
+                                                                                           columnspan=column)
+
+
 class LocationsShow(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -782,7 +1008,7 @@ class LocationsShow(tk.Frame):
         label_username = tk.Label(self, text='Logged in as: {}'.format(username)).grid(row=0, column=0, sticky='w')
 
         label_header = tk.Label(self, text="LISTA MAGAZYNÓW", font='Arial 15 bold', width=60, height=5, relief='groove').grid(row=1, column=0, columnspan=2)
-        label_empty_row = tk.Label(self).grid(row=2,column=1)
+        label_empty_row = tk.Label(self).grid(row=2, column=1)
 
         # A list of locations and buttons to delete them
 
@@ -791,25 +1017,21 @@ class LocationsShow(tk.Frame):
             label_delete = tk.Button(self, text = "Usuń", width=30, height=2, relief='groove',
                                 command=lambda i=key: confirm_location_removal(i)).grid(row=row, column=1)
             row +=1
-            label_empty_row = tk.Label(self).grid(row=row,column=1)
-            row +=1
+            label_empty_row = tk.Label(self).grid(row=row+1,column=1)
 
-        label_empty_row = tk.Label(self).grid(row=row,column=1)
-        row +=1
+        label_empty_row = tk.Label(self).grid(row=row+1,column=1)
 
         # Buttons for adding a new location
 
         the_input_add_location = tk.Entry(self, width=30)
-        the_input_add_location.grid(row=row,column=0)
+        the_input_add_location.grid(row=row+2, column=0)
         label_add_location = tk.Button(self, text = "Dodaj nowy", width=30, relief='groove',
-                            command=lambda: add_location(the_input_add_location.get(), load_obj('item_location_data'))).grid(row=row, column=1)
+                            command=lambda: add_location(the_input_add_location.get(), load_obj('item_location_data'))).grid(row=row+2, column=1)
 
-        row += 1
-        label_empty_row = tk.Label(self).grid(row=row,column=1)
-        row +=1
+        label_empty_row = tk.Label(self).grid(row=row+3, column=1)
 
         button_back = tk.Button(self, text="Wróć", width=30, height=3, relief='groove',
-                        command=lambda: self.controller.show_frame(MainMenu)).grid(row=row, column=0, columnspan=2) 
+                        command=lambda: self.controller.show_frame(MainMenu)).grid(row=row+4, column=0, columnspan=2)
 
 
 class LocationsConfirm(tk.Frame):
