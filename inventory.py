@@ -3,14 +3,13 @@
 # Inventory - inventory management program
 
 import tkinter as tk
-import pickle
+import pickle, re
 
 last_row = 0
 user_input = ''
 last_key = ''
 last_value = ''
 username = ''
-
 
 # Function for saving a dictionary to a file
 
@@ -122,8 +121,13 @@ class Login(tk.Frame):
 
         def log_in(input_user, input_password):
 
+            def display_error(error_message):
+                global last_error_label
+                last_error_label.destroy()
+                last_error_label = tk.Label(self, text=error_message)
+                last_error_label.grid(row=6, column=2)
+
             global username
-            global last_error_label
 
             provided_username = input_user.get()
             provided_password = input_password.get()
@@ -135,15 +139,9 @@ class Login(tk.Frame):
                     username = provided_username
                     controller.show_frame(MainMenu)
                 else:
-                    last_error_label.destroy()
-
-                    last_error_label = tk.Label(self, text='Błędne hasło')
-                    last_error_label.grid(row=6, column=2)
+                    display_error("Błędne hasło")
             else:
-                last_error_label.destroy()
-
-                last_error_label = tk.Label(self, text='Użytkownik nie istnieje')
-                last_error_label.grid(row=6, column=2)
+                display_error("Użytkownik nie istnieje")
 
     def on_show_frame(self, event):
 
@@ -209,23 +207,58 @@ class Register(tk.Frame):
             provided_username = input_user.get()
             provided_password = input_password.get()
             provided_password_repeat = input_password_repeat.get()
-            global last_error_label
 
-            data = load_obj('users')
-            if provided_username in data.keys():
+            def display_error(error_message):
+                global last_error_label
                 last_error_label.destroy()
-                last_error_label = tk.Label(self, text='Nazwa zajęta')
+                last_error_label = tk.Label(self, text=error_message)
                 last_error_label.grid(row=8, column=2)
-            elif provided_password != provided_password_repeat:
-                last_error_label.destroy()
-                last_error_label = tk.Label(self, text='Hasła nie są jednakowe')
-                last_error_label.grid(row=8, column=2)
-            else:
-                data[provided_username] = provided_password
-                userdata = {}
-                save_obj(userdata, provided_username)
-                save_obj(data, 'users')
-                controller.show_frame(Login)
+
+            valid_username = False
+
+            if len(provided_username) < 6:
+                display_error("Nazwa za krótka (min 6)")
+            elif len(provided_username) >= 6:
+
+                if not provided_username.isalnum():
+                    display_error("Hasło musi zawierać litery i cyfry")
+
+                else:
+                    data = load_obj('users')
+                    if provided_username in data.keys():
+                        display_error("Nazwa zajęta")
+                    else:
+                        valid_username = True
+
+            if valid_username:
+
+                if len(provided_password) < 6:
+                    display_error("Za krótkie hasło (min 6)")
+                elif len(provided_password) >= 6:
+
+                    includes_letter = False
+                    includes_number = False
+                    invalid_character = False
+
+                    for char in provided_password:
+                        if char.isalpha():
+                            includes_letter = True
+                        elif char.isdecimal():
+                            includes_number = True
+                        else:
+                            invalid_character = True
+                    if not includes_letter or not includes_number:
+                        display_error("Hasło musi zawierać litery i cyfry")
+                    elif not invalid_character:
+                        data = load_obj('users')
+                        if provided_password != provided_password_repeat:
+                            display_error("Hasła nie są jednakowe")
+                        else:
+                            data[provided_username] = provided_password
+                            userdata = {}
+                            save_obj(userdata, provided_username)
+                            save_obj(data, 'users')
+                            controller.show_frame(Login)
 
     def on_show_frame(self, event):
 
@@ -340,22 +373,6 @@ class ItemsPrivate(tk.Frame):
 
             row += 1
 
-            # Buttons for adding a new item to the dictionary
-
-            # label_item = tk.Label(self, text="Nazwa:").grid(row=main_row, column=2)
-            # label_quantity = tk.Label(self, text="Ilość:").grid(row=main_row, column=3)
-            #
-            # row += 1
-            # the_input_item = tk.Entry(self, width=25)
-            # the_input_item.grid(row=main_row+1, column=2, sticky='w')
-            # the_input_quantity = tk.Entry(self, width=5)
-            # the_input_quantity.grid(row=main_row+1, column=3)
-            # label_add_item = tk.Button(self, text="Dodaj nowy", relief='groove',
-            #                            command=lambda: add_item(key, the_input_item, the_input_quantity)).grid(row=main_row+1,
-            #                                                                                                   column=4,
-            #                                                                                                   columnspan=3,
-            #                                                                                                   sticky='w')
-
             # Function for displaying buttons to change values of reserved items
 
             def print_buttons(row, key, item):
@@ -394,33 +411,21 @@ class ItemsPrivate(tk.Frame):
                     row=5,
                     column=3, columnspan=4)
 
-            # Function for adding a new entry to a nested dictionary.
-            # Adding a new item and its quantity
-
-            # def add_item(user_location, user_item, user_quantity):
-            #
-            #     output_list = load_obj(username)
-            #     output_list[user_location.lower()][user_item.get()] = user_quantity.get()
-            #     save_obj(output_list, username)
-            #     self.controller.show_frame(ItemsPrivate)
-            #     choose_location(user_location)
-
-            # Function for changing quantity of a selected item (subtracting a given value)
-
             def subtract_quantity(user_location, user_item, user_quantity):
 
                 quantity = user_quantity.get()
-                output_list = load_obj(username)
+                if quantity.isdecimal():
+                    output_list = load_obj(username)
 
-                if int(output_list[user_location.lower()][user_item]) - int(quantity) > 0:
-                    output_list[user_location.lower()][user_item] = str(
-                        int(output_list[user_location.lower()][user_item]) - int(quantity))
-                else:
-                    output_list[user_location.lower()].pop(user_item)
-                save_obj(output_list, username)
+                    if int(output_list[user_location.lower()][user_item]) - int(quantity) > 0:
+                        output_list[user_location.lower()][user_item] = str(
+                            int(output_list[user_location.lower()][user_item]) - int(quantity))
+                    else:
+                        output_list[user_location.lower()].pop(user_item)
+                    save_obj(output_list, username)
 
-                self.controller.show_frame(ItemsPrivate)
-                choose_location(user_location)
+                    self.controller.show_frame(ItemsPrivate)
+                    choose_location(user_location)
 
             # Function for 'using an amount' of an item - subtracting given quantity from the global
             # and user's dictionary
@@ -428,15 +433,16 @@ class ItemsPrivate(tk.Frame):
             def use_some(user_location, user_item, user_quantity):
 
                 quantity = user_quantity.get()
-                private_list = load_obj(username)
-                if int(private_list[user_location][user_item]) - int(quantity) > 0:
-                    private_list[user_location][user_item] = str(int(private_list[user_location][user_item]) - int(quantity))
-                else:
-                    private_list[user_location].pop(user_item)
-                save_obj(private_list, username)
+                if quantity.isdecimal():
+                    private_list = load_obj(username)
+                    if int(private_list[user_location][user_item]) - int(quantity) > 0:
+                        private_list[user_location][user_item] = str(int(private_list[user_location][user_item]) - int(quantity))
+                    else:
+                        private_list[user_location].pop(user_item)
+                    save_obj(private_list, username)
 
-                self.controller.show_frame(ItemsPrivate)
-                choose_location(user_location)
+                    self.controller.show_frame(ItemsPrivate)
+                    choose_location(user_location)
 
             # Function for 'using' an item - removing it from user's dictionary
             # and subtracting user's reserved quantity from the global dictionary
@@ -456,20 +462,21 @@ class ItemsPrivate(tk.Frame):
             def undo_reserve_quantity(user_location, user_item, user_quantity):
 
                 quantity = user_quantity.get()
-                private_list = load_obj(username)
-                global_list = load_obj('item_location_data')
+                if quantity.isdecimal():
+                    private_list = load_obj(username)
+                    global_list = load_obj('item_location_data')
 
-                if user_location.lower() not in global_list.keys():
-                    global_list[user_location.lower()] = {user_item: quantity}
-                elif user_item not in global_list[user_location]:
-                    global_list[user_location.lower()][user_item] = quantity
-                else:
-                    global_list[user_location.lower()][user_item] = str(
-                        int(quantity) + int(global_list[user_location.lower()][user_item]))
+                    if user_location.lower() not in global_list.keys():
+                        global_list[user_location.lower()] = {user_item: quantity}
+                    elif user_item not in global_list[user_location]:
+                        global_list[user_location.lower()][user_item] = quantity
+                    else:
+                        global_list[user_location.lower()][user_item] = str(
+                            int(quantity) + int(global_list[user_location.lower()][user_item]))
 
-                save_obj(private_list, username)
-                save_obj(global_list, 'item_location_data')
-                subtract_quantity(user_location, user_item, user_quantity)
+                    save_obj(private_list, username)
+                    save_obj(global_list, 'item_location_data')
+                    subtract_quantity(user_location, user_item, user_quantity)
 
             # Function for 'putting back' an item, removing it from user's dictionary
             # and adding user's reserved quantity to the global dictionary
@@ -646,12 +653,14 @@ class ItemsShow(tk.Frame):
             # Adding a new item and its quantity
 
             def add_item(user_location, user_item, user_quantity):
-                
-                output_list = load_obj('item_location_data')
-                output_list[user_location.lower()][user_item.get()] = user_quantity.get()
-                save_obj(output_list, 'item_location_data')
-                self.controller.show_frame(ItemsShow)
-                choose_location(user_location)
+
+                quantity = user_quantity.get()
+                if quantity.isdecimal():
+                    output_list = load_obj('item_location_data')
+                    output_list[user_location.lower()][user_item.get()] = quantity
+                    save_obj(output_list, 'item_location_data')
+                    self.controller.show_frame(ItemsShow)
+                    choose_location(user_location)
 
             # Function for changing value of an entry in a nested dictionary.
             # Adding an int to items quantity
@@ -659,11 +668,12 @@ class ItemsShow(tk.Frame):
             def add_quantity(user_location, user_item, user_quantity):
                 
                 quantity = user_quantity.get()
-                output_list = load_obj('item_location_data')
-                output_list[user_location.lower()][user_item] = str(int(quantity) + int(output_list[user_location.lower()][user_item]))
-                save_obj(output_list, 'item_location_data')
-                self.controller.show_frame(ItemsShow)
-                choose_location(user_location)
+                if quantity.isdecimal():
+                    output_list = load_obj('item_location_data')
+                    output_list[user_location.lower()][user_item] = str(int(quantity) + int(output_list[user_location.lower()][user_item]))
+                    save_obj(output_list, 'item_location_data')
+                    self.controller.show_frame(ItemsShow)
+                    choose_location(user_location)
 
             # Function for changing value of an entry in a nested dictionary.
             # Subtracting an int from items quantity.
@@ -671,16 +681,17 @@ class ItemsShow(tk.Frame):
             def subtract_quantity(user_location, user_item, user_quantity):
                 
                 quantity = user_quantity.get()
-                output_list = load_obj('item_location_data')
+                if quantity.isdecimal():
+                    output_list = load_obj('item_location_data')
 
-                if int(output_list[user_location.lower()][user_item]) - int(quantity) > 0:
-                    output_list[user_location.lower()][user_item] = str(int(output_list[user_location.lower()][user_item]) - int(quantity))
-                else:
-                    output_list[user_location.lower()].pop(user_item)
+                    if int(output_list[user_location.lower()][user_item]) - int(quantity) > 0:
+                        output_list[user_location.lower()][user_item] = str(int(output_list[user_location.lower()][user_item]) - int(quantity))
+                    else:
+                        output_list[user_location.lower()].pop(user_item)
 
-                save_obj(output_list, 'item_location_data')
-                self.controller.show_frame(ItemsShow)
-                choose_location(user_location)
+                    save_obj(output_list, 'item_location_data')
+                    self.controller.show_frame(ItemsShow)
+                    choose_location(user_location)
 
             # Function for reserving a value of an entry in a nested dictionary.
             # Adding an int or creating an entry in user's private list of items
@@ -688,18 +699,19 @@ class ItemsShow(tk.Frame):
             def reserve_quantity(user_location, user_item, user_quantity):
 
                 quantity = user_quantity.get()
-                private_list = load_obj(username)
+                if quantity.isdecimal():
+                    private_list = load_obj(username)
 
-                if user_location.lower() not in private_list.keys():
-                    private_list[user_location.lower()] = {user_item:quantity}
-                elif user_item not in private_list[user_location]:
-                    private_list[user_location.lower()][user_item] = quantity
-                else:
-                    private_list[user_location.lower()][user_item] = str(
-                        int(quantity) + int(private_list[user_location.lower()][user_item]))
+                    if user_location.lower() not in private_list.keys():
+                        private_list[user_location.lower()] = {user_item:quantity}
+                    elif user_item not in private_list[user_location]:
+                        private_list[user_location.lower()][user_item] = quantity
+                    else:
+                        private_list[user_location.lower()][user_item] = str(
+                            int(quantity) + int(private_list[user_location.lower()][user_item]))
 
-                save_obj(private_list, username)
-                subtract_quantity(user_location, user_item, user_quantity)
+                    save_obj(private_list, username)
+                    subtract_quantity(user_location, user_item, user_quantity)
 
             # Function for deleting an entry from a nested dictionary.
             # Removing an item from a 'global' dictionary and from all private lists of users
