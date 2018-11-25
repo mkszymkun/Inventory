@@ -19,6 +19,10 @@ class MainMenu(tk.Frame):
         def empty_row(row, col):
             tk.Label(self).grid(row=row, column=col)
 
+        def button(text, width, frame, row):
+            tk.Button(self, text=text, font='Arial 10', width=width, height=6, relief='groove',
+                      command=lambda: self.controller.show_frame(frame)).grid(row=row, column=1)
+
         username = self.controller.get_page("Login").username
 
         label_username = tk.Label(self, text='Logged in as: {}'.format(username)).grid(row=0, column=1, sticky='w')
@@ -27,19 +31,14 @@ class MainMenu(tk.Frame):
         
         empty_row(2,1)
 
-        button_items = tk.Button(self, text="Materiały", font='Arial 10', width=60, height=6, relief='groove',
-                            command=lambda: self.controller.show_frame("ItemsShow")).grid(row=3,column=1)
+        button("Materiały", 60, "ItemsShow", 3)
 
-        button_items_search = tk.Button(self, text="Wyszukiwarka", font='Arial 10', width=60, height=6, relief='groove',
-                                 command=lambda: self.controller.show_frame("ItemsSearch")).grid(row=4, column=1)
+        button("Wyszukiwarka", 60, "ItemsSearch", 4)
 
-        button_locations = tk.Button(self, text="Magazyny", font='Arial 10', width=60, height=6, relief='groove',
-                            command=lambda: self.controller.show_frame("LocationsShow")).grid(row=5, column=1)
+        button("Magazyny", 60, "LocationsShow", 5)
 
-        button_private = tk.Button(self, text="Moje rezerwacje", font='Arial 10', width=60, height=6, relief='groove',
-                                     command=lambda: self.controller.show_frame("ItemsPrivate")).grid(row=6, column=1)
+        button("Moje rezerwacje", 60, "ItemsPrivate", 6)
 
         empty_row(7,1)
 
-        button_quit = tk.Button(self, text="Wyloguj", font='Arial 10', width=30, height=4, relief='groove',
-                            command=lambda: self.controller.show_frame("Login")).grid(row=8, column=1)
+        button("Wyloguj", 30, "Login", 8)

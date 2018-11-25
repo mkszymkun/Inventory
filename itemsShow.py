@@ -38,21 +38,6 @@ class ItemsShow(tk.Frame):
             tk.Label(self, text=text, font='Arial 10', width=20, height=2, relief='groove').grid(row=row,
                                                                                                      column=col)
 
-        row = 3
-        main_row = 3
-
-        data = load_obj('item_location_data')
-    
-        for widget in self.winfo_children():
-            widget.destroy()
-
-        username = self.controller.get_page("Login").username
-
-        label_username = tk.Label(self, text='Logged in as: {}'.format(username)).grid(row=0, column=0, sticky='w')
-
-        header("LISTA MATERIAŁÓW")
-        empty_row(2, 1)
-
         def choose_location(key):
 
             self.last_key = key
@@ -202,6 +187,21 @@ class ItemsShow(tk.Frame):
 
             self.controller.show_frame("ItemsShow")
             choose_location(user_location)
+
+        for widget in self.winfo_children():
+            widget.destroy()
+
+        row = 3
+        main_row = 3
+
+        data = load_obj('item_location_data')
+
+        username = self.controller.get_page("Login").username
+
+        label_username = tk.Label(self, text='Logged in as: {}'.format(username)).grid(row=0, column=0, sticky='w')
+
+        header("LISTA MATERIAŁÓW")
+        empty_row(2, 1)
 
         for key in data.keys():
             if key == self.last_key:

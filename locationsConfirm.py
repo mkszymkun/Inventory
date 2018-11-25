@@ -16,8 +16,6 @@ class LocationsConfirm(tk.Frame):
 
     def on_show_frame(self, event):
 
-        username = self.controller.get_page("Login").username
-
         def save_obj(obj, name):
             with open(name + '.pkl', 'wb') as f:
                 pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
@@ -30,6 +28,8 @@ class LocationsConfirm(tk.Frame):
             output_list.pop(input_location.lower())
             save_obj(output_list, 'item_location_data')
             self.controller.show_frame("LocationsShow")
+
+        username = self.controller.get_page("Login").username
 
         label_username = tk.Label(self, text='Logged in as: {}'.format(username)).grid(row=0, column=1, sticky='w')
 

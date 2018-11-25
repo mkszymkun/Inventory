@@ -26,9 +26,6 @@ class LocationsShow(tk.Frame):
             with open(name + '.pkl', 'rb') as f:
                 return pickle.load(f)
 
-        row = 3
-        data = load_obj('item_location_data')
-
         def confirm_location_removal(key):
             self.user_input = key
             self.controller.show_frame("LocationsConfirm")
@@ -40,6 +37,9 @@ class LocationsShow(tk.Frame):
     
         for widget in self.winfo_children():
             widget.destroy()
+
+        row = 3
+        data = load_obj('item_location_data')
 
         username = self.controller.get_page("Login").username
 

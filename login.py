@@ -25,6 +25,10 @@ class Login(tk.Frame):
             tk.Label(self, text=text, font='Arial 10', width=20, height=2, relief='groove').grid(row=row,
                                                                                                      column=col)
 
+        def button(text, commands, row):
+            tk.Button(self, text=text, font='Arial 10', width=30, height=4, relief='groove',
+                      command=commands).grid(row=row, column=0, columnspan=4)
+
         empty_row(0, 1)
         header("LOGOWANIE")
 
@@ -42,16 +46,11 @@ class Login(tk.Frame):
 
         self.last_error_label = tk.Label(self)
         self.last_error_label.grid(row=6, column=1)
+
         empty_row(7, 1)
-
-        button_login = tk.Button(self, text="Zaloguj", font='Arial 10', width=30, height=4, relief='groove',
-                                 command=lambda: log_in(input_username, input_pword)).grid(row=8, column=0, columnspan=4)
-
-        button_register = tk.Button(self, text="Załóż konto", font='Arial 10', width=30, height=4, relief='groove',
-                                    command=lambda: controller.show_frame("Register")).grid(row=9, column=0, columnspan=4)
-
-        button_quit = tk.Button(self, text="Wyjście", font='Arial 10', width=30, height=4, relief='groove',
-                                command=lambda: controller.destroy()).grid(row=10, column=0, columnspan=4)
+        button("Zaloguj", lambda: log_in(input_username, input_pword), 8)
+        button("Załóż konto", lambda: controller.show_frame("Register"), 9)
+        button("Wyjście", lambda: controller.destroy(), 10)
 
         def log_in(input_user, input_password):
 
@@ -77,7 +76,6 @@ class Login(tk.Frame):
         def load_obj(name):
             with open(name + '.pkl', 'rb') as f:
                 return pickle.load(f)
-
 
     def on_show_frame(self, event):
 

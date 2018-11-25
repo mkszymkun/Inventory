@@ -15,7 +15,7 @@ from itemsFound import ItemsFound
 from locationsConfirm import LocationsConfirm
 
 
-class Inventory(tk.Tk):
+class Main(tk.Tk):
 
     def __init__(self, *args, **kwargs):
         
@@ -71,6 +71,6 @@ class Inventory(tk.Tk):
         return self.frames[frame_class]
 
 
-app = Inventory()
+app = Main()
 
 app.mainloop()
