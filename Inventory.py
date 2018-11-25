@@ -13,7 +13,6 @@ from itemsPrivate import ItemsPrivate
 from itemsSearch import ItemsSearch
 from itemsFound import ItemsFound
 from locationsConfirm import LocationsConfirm
-from blueprints import Blueprints
 
 
 class Inventory(tk.Tk):
@@ -50,7 +49,7 @@ class Inventory(tk.Tk):
             users = {}
             save_obj(users, 'users')
 
-        for F in ( Blueprints, Register, MainMenu, ItemsShow, LocationsShow, ItemsPrivate, ItemsSearch, ItemsFound, LocationsConfirm, Login):
+        for F in (Register, MainMenu, ItemsShow, LocationsShow, ItemsPrivate, ItemsSearch, ItemsFound, LocationsConfirm, Login):
 
             cont = F.__name__
 
