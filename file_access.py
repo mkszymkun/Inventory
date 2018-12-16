@@ -4,7 +4,6 @@
 
 import tkinter as tk
 import pickle
-from graphics import Graphics
 
 
 class FileAccess(tk.Frame):

@@ -3,8 +3,6 @@
 # Inventory - inventory management program
 
 import tkinter as tk
-import pickle
-from file_access import FileAccess
 
 
 class TitleView(tk.Frame):

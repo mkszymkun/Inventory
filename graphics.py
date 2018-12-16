@@ -27,6 +27,10 @@ class Graphics(tk.Frame):
         tk.Button(self, text=text, font='Arial 10', width=50, height=6, relief='groove',
                   command=command).grid(row=row, column=1)
 
+    def logout_button(self, text, command, row):
+        tk.Button(self, text=text, font='Arial 10', width=50, height=6, relief='groove',
+                  command=command).grid(row=row, column=1)
+
     def menu_header(self):
         tk.Label(self, text="MENU", font='Arial 15 bold', width=30, height=5).grid(
         row=1, column=1)

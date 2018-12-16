@@ -3,9 +3,7 @@
 # Inventory - inventory management program
 
 import tkinter as tk
-import pickle
 from graphics import Graphics
-from file_access import FileAccess
 from menu_logic import MenuLogic
 
 
@@ -30,5 +28,5 @@ class MenuView(tk.Frame):
 
         Graphics.empty_row(self, 7, 1)
 
-        tk.Button(self, text="Wyloguj", font='Arial 10', width=50, height=6, relief='groove',
-                  command=lambda: MenuLogic.logout(self)).grid(row=8, column=1)
+        MenuLogic.display_logout_button(self, "Wyloguj", 8)
+

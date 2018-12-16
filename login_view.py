@@ -3,8 +3,6 @@
 # Inventory - inventory management program
 
 import tkinter as tk
-import pickle
-from file_access import FileAccess
 from login_logic import LoginLogic
 from graphics import Graphics
 
