@@ -57,7 +57,9 @@ class Main(tk.Tk):
 
         self.frames = {}
 
-        for F in (ListOfItemsView, SearchForItemsView, ItemsSearchResultsView, ListOfLocationsView, LoginView, UsersReservationsListView, RegisterUserView, ConfirmLocationRemovalView):
+        for F in (ListOfItemsView, SearchForItemsView, ItemsSearchResultsView,
+                  ListOfLocationsView, LoginView, UsersReservationsListView,
+                  RegisterUserView, ConfirmLocationRemovalView):
 
             cont = F.__name__
 
@@ -67,22 +69,29 @@ class Main(tk.Tk):
 
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.frames["EmptyFrameLeft"] = EmptyFrameView(parent=container_left, controller=self)
+        self.frames["EmptyFrameLeft"] = EmptyFrameView(parent=container_left,
+                                                       controller=self)
         self.frames["EmptyFrameLeft"].grid(row=0, column=0, sticky="nsew")
 
-        self.frames["EmptyFrameRight"] = EmptyFrameView(parent=container_right, controller=self)
+        self.frames["EmptyFrameRight"] = EmptyFrameView(parent=container_right,
+                                                        controller=self)
         self.frames["EmptyFrameRight"].grid(row=0, column=0, sticky="nsew")
 
-        self.frames["AdditionalButtonsView"] = AdditionalButtonsView(parent=container_right, controller=self)
-        self.frames["AdditionalButtonsView"].grid(row=0, column=0, sticky="nsew")
+        self.frames["AdditionalButtonsView"] = AdditionalButtonsView(
+            parent=container_right, controller=self)
+        self.frames["AdditionalButtonsView"].grid(row=0, column=0,
+                                                  sticky="nsew")
 
-        self.frames["EmptyFrameTop"] = EmptyFrameView(parent=container_top, controller=self)
+        self.frames["EmptyFrameTop"] = EmptyFrameView(parent=container_top,
+                                                      controller=self)
         self.frames["EmptyFrameTop"].grid(row=0, column=0, sticky="nsew")
 
-        self.frames["EmptyFrameBot"] = EmptyFrameView(parent=container_bot, controller=self)
+        self.frames["EmptyFrameBot"] = EmptyFrameView(parent=container_bot,
+                                                      controller=self)
         self.frames["EmptyFrameBot"].grid(row=0, column=0, sticky="nsew")
 
-        self.frames["MenuView"] = MenuView(parent=container_left, controller=self)
+        self.frames["MenuView"] = MenuView(parent=container_left,
+                                           controller=self)
         self.frames["Title"] = TitleView(parent=container_top, controller=self)
 
         self.frames["MenuView"].grid(row=0, column=0, sticky="nsew")

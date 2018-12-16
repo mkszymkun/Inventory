@@ -28,13 +28,17 @@ class ListOfItemsLogic(tk.Frame):
     def display_location_name_button(self, location):
 
         if location == ListOfItemsLogic.last_chosen_location:
-            Graphics.location_name_button_colored(self, location.upper(),
-                                        lambda: ListOfItemsLogic.choose_location(self, location), ListOfItemsLogic.locations_row)
+            Graphics.location_name_button_colored(
+                self, location.upper(),
+                lambda: ListOfItemsLogic.choose_location(self, location),
+                ListOfItemsLogic.locations_row)
             ListOfItemsLogic.last_chosen_location = location
             ListOfItemsLogic.locations_row += 2
         else:
-            Graphics.location_name_button(self, location.upper(),
-                                        lambda: ListOfItemsLogic.choose_location(self, location), ListOfItemsLogic.locations_row)
+            Graphics.location_name_button(
+                self, location.upper(),
+                lambda: ListOfItemsLogic.choose_location(self, location),
+                ListOfItemsLogic.locations_row)
             ListOfItemsLogic.locations_row += 2
 
     def choose_location(self, location):
@@ -72,15 +76,21 @@ class ListOfItemsLogic(tk.Frame):
         available_quantity = ListOfItemsLogic.available
 
         if item == ListOfItemsLogic.last_chosen_item:
-            Graphics.item_name_button_colored(self, item, available_quantity, full_quantity, reserved_quantity,
-                                                   lambda: ListOfItemsLogic.display_item_options_buttons(self, item, location), row)
+            Graphics.item_name_button_colored(
+                self, item, available_quantity,
+                full_quantity, reserved_quantity,
+                lambda: ListOfItemsLogic.display_item_options_buttons(
+                    self, item, location), row)
 
             ListOfItemsLogic.last_chosen_item = ''
             ListOfItemsLogic.row += 1
 
         else:
-            Graphics.item_name_button(self, item, available_quantity, full_quantity, reserved_quantity,
-                                                   lambda: ListOfItemsLogic.display_item_options_buttons(self, item, location), row)
+            Graphics.item_name_button(
+                self, item, available_quantity,
+                full_quantity, reserved_quantity,
+                lambda: ListOfItemsLogic.display_item_options_buttons(
+                    self, item, location), row)
 
             ListOfItemsLogic.row += 1
 
@@ -106,23 +116,32 @@ class ListOfItemsLogic(tk.Frame):
             users_reservations = FileAccess.load_obj(self, user)
             if location in users_reservations.keys():
                 if item in users_reservations[location]:
-                    ListOfItemsLogic.reserved_and_available += int(users_reservations[location][item])
+                    ListOfItemsLogic.reserved_and_available \
+                        += int(users_reservations[location][item])
 
-        ListOfItemsLogic.reserved = ListOfItemsLogic.reserved_and_available - int(item_location_data[location][item])
+        ListOfItemsLogic.reserved = ListOfItemsLogic.reserved_and_available \
+                                    - int(item_location_data[location][item])
 
     def display_new_item_buttons(self, key):
 
-        Graphics.adding_new_item_label(self, "Nazwa:", ListOfItemsLogic.locations_row, 1)
-        Graphics.adding_new_item_label(self, "Ilość:", ListOfItemsLogic.locations_row, 2)
+        Graphics.adding_new_item_label(self, "Nazwa:",
+                                       ListOfItemsLogic.locations_row, 1)
+        Graphics.adding_new_item_label(self, "Ilość:",
+                                       ListOfItemsLogic.locations_row, 2)
 
         the_input_item = tk.Entry(self, width=25)
-        the_input_item.grid(row=ListOfItemsLogic.locations_row + 1, column=1, sticky='w')
+        the_input_item.grid(row=ListOfItemsLogic.locations_row + 1,
+                            column=1, sticky='w')
 
         the_input_quantity = tk.Entry(self, width=5)
-        the_input_quantity.grid(row=ListOfItemsLogic.locations_row + 1, column=2)
+        the_input_quantity.grid(row=ListOfItemsLogic.locations_row + 1,
+                                column=2)
 
-        Graphics.adding_new_item_button(self, "Dodaj nowy",
-                        lambda: ListOfItemsLogic.add_item(self, key, the_input_item, the_input_quantity), ListOfItemsLogic.locations_row + 1)
+        Graphics.adding_new_item_button(
+            self, "Dodaj nowy",
+            lambda: ListOfItemsLogic.add_item(
+                self, key, the_input_item, the_input_quantity),
+            ListOfItemsLogic.locations_row + 1)
 
     def add_item(self, user_location, user_item, user_quantity):
 

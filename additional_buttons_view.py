@@ -20,13 +20,16 @@ class AdditionalButtonsView(tk.Frame):
             widget.destroy()
 
         if AdditionalButtonsLogic.caller == 'ListOfItemsLogic':
-            AdditionalButtonsLogic.print_buttons(self,
-                                            AdditionalButtonsLogic.chosen_location, AdditionalButtonsLogic.chosen_item)
+            AdditionalButtonsLogic.print_buttons(
+                self, AdditionalButtonsLogic.chosen_location,
+                AdditionalButtonsLogic.chosen_item)
 
         elif AdditionalButtonsLogic.caller == 'UsersReservationsListLogic':
-            AdditionalButtonsLogic.print_buttons_private(self,
-                                            AdditionalButtonsLogic.chosen_location, AdditionalButtonsLogic.chosen_item)
+            AdditionalButtonsLogic.print_buttons_private(
+                self, AdditionalButtonsLogic.chosen_location,
+                AdditionalButtonsLogic.chosen_item)
 
         elif AdditionalButtonsLogic.caller == 'ItemsSearchResultsLogic':
-            AdditionalButtonsLogic.print_buttons_search(self,
-                                            AdditionalButtonsLogic.chosen_location, AdditionalButtonsLogic.chosen_item)
+            AdditionalButtonsLogic.print_buttons_search\
+                (self, AdditionalButtonsLogic.chosen_location,
+                 AdditionalButtonsLogic.chosen_item)

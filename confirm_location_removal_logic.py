@@ -15,15 +15,17 @@ class ConfirmLocationRemovalLogic(tk.Frame):
         self.controller = controller
 
     def remove_location(self, input_location, output_list):
-        output_list.pop(input_location.lower())
-        FileAccess.save_item_location_data(self, output_list)
+        FileAccess.remove_location(self, input_location, output_list)
         self.controller.show_frame("ListOfLocationsView")
 
     def button_delete_location(self, text, user_input, row):
-        Graphics.button(self, text, lambda: ConfirmLocationRemovalLogic.remove_location(self, user_input,
-                                                                       FileAccess.load_item_location_data(self)),
-                        row)
+        Graphics.button(
+            self, text, lambda: ConfirmLocationRemovalLogic.remove_location(
+                self, user_input,
+                FileAccess.load_item_location_data(self)), row)
 
     def button_go_back(self, text, row):
-        Graphics.button(self, text, lambda: self.controller.show_frame("ListOfLocationsView"), row)
+        Graphics.button(
+            self, text,
+            lambda: self.controller.show_frame("ListOfLocationsView"), row)
 

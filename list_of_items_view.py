@@ -36,7 +36,8 @@ class ListOfItemsView(tk.Frame):
         if AdditionalButtonsLogic.called:
             AdditionalButtonsLogic.called = False
             ListOfItemsLogic.location_chosen = True
-            ListOfItemsLogic.chosen_location = AdditionalButtonsLogic.chosen_location
+            ListOfItemsLogic.chosen_location \
+                = AdditionalButtonsLogic.chosen_location
             self.controller.show_frame("ListOfItemsView")
 
         if ListOfItemsLogic.location_chosen:

@@ -12,5 +12,6 @@ class TitleView(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        label_header = tk.Label(self, text="INVENTORY MANAGER", font='Arial 15 bold', width=130, height=5, relief='groove').grid(
-            row=1, column=0)
+        label_header = tk.Label(
+            self, text="INVENTORY MANAGER", font='Arial 15 bold',
+            width=130, height=5, relief='groove').grid(row=1, column=0)

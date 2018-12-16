@@ -48,3 +48,11 @@ class FileAccess(tk.Frame):
         with open(username + '.pkl', 'rb') as f:
             return pickle.load(f)
 
+    #
+
+    def remove_location(self, input_location, output_list):
+        output_list.pop(input_location.lower())
+        FileAccess.save_item_location_data(self, output_list)
+
+
+

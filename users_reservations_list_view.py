@@ -30,12 +30,14 @@ class UsersReservationsListView(tk.Frame):
         UsersReservationsListLogic.locations_row = 3
 
         for location in reservation_data.keys():
-            UsersReservationsListLogic.display_location_name_button(self, location)
+            UsersReservationsListLogic.display_location_name_button(
+                self, location)
 
         if AdditionalButtonsLogic.called:
             AdditionalButtonsLogic.called = False
             UsersReservationsListLogic.location_chosen = True
-            UsersReservationsListLogic.chosen_location = AdditionalButtonsLogic.chosen_location
+            UsersReservationsListLogic.chosen_location \
+                = AdditionalButtonsLogic.chosen_location
             self.controller.show_frame("UsersReservationsListView")
 
         if UsersReservationsListLogic.location_chosen:

@@ -30,13 +30,17 @@ class UsersReservationsListLogic(tk.Frame):
     def display_location_name_button(self, location):
 
         if location == UsersReservationsListLogic.last_chosen_location:
-            Graphics.location_name_button_colored(self, location.upper(),
-                                        lambda: UsersReservationsListLogic.choose_location(self, location), UsersReservationsListLogic.locations_row)
+            Graphics.location_name_button_colored(
+                self, location.upper(),
+                lambda: UsersReservationsListLogic.choose_location(
+                    self, location), UsersReservationsListLogic.locations_row)
             UsersReservationsListLogic.last_chosen_location = location
             UsersReservationsListLogic.locations_row += 2
         else:
-            Graphics.location_name_button(self, location.upper(),
-                                        lambda: UsersReservationsListLogic.choose_location(self, location), UsersReservationsListLogic.locations_row)
+            Graphics.location_name_button(
+                self, location.upper(),
+                lambda: UsersReservationsListLogic.choose_location(
+                    self, location), UsersReservationsListLogic.locations_row)
             UsersReservationsListLogic.locations_row += 2
 
     def choose_location(self, location):
@@ -58,7 +62,8 @@ class UsersReservationsListLogic(tk.Frame):
         for item, available_quantity in item_location_data[location].items():
             UsersReservationsListLogic.calculate(self, item, location)
 
-            UsersReservationsListLogic.display_item_name_button(self, item, location)
+            UsersReservationsListLogic.display_item_name_button(
+                self, item, location)
 
         Graphics.empty_row(self, row, 1)
 
@@ -69,14 +74,20 @@ class UsersReservationsListLogic(tk.Frame):
         available_quantity = UsersReservationsListLogic.available
 
         if item == UsersReservationsListLogic.last_chosen_item:
-            Graphics.reserved_item_name_button_colored(self, item, reserved_quantity, available_quantity,
-                                                   lambda: UsersReservationsListLogic.display_item_options_buttons(self, item, location), row)
+            Graphics.reserved_item_name_button_colored(
+                self, item, reserved_quantity, available_quantity,
+                lambda:
+                UsersReservationsListLogic.display_item_options_buttons(
+                    self, item, location), row)
             UsersReservationsListLogic.last_chosen_item = ''
             UsersReservationsListLogic.row += 1
 
         else:
-            Graphics.reserved_item_name_button(self, item, reserved_quantity, available_quantity,
-                                                   lambda: UsersReservationsListLogic.display_item_options_buttons(self, item, location), row)
+            Graphics.reserved_item_name_button(
+                self, item, reserved_quantity, available_quantity,
+                lambda:
+                UsersReservationsListLogic.display_item_options_buttons(
+                    self, item, location), row)
             UsersReservationsListLogic.row += 1
 
     def display_item_options_buttons(self, item, location):
@@ -92,7 +103,9 @@ class UsersReservationsListLogic(tk.Frame):
     def calculate(self, item, location):
 
         reservation_data = FileAccess.load_user_data(self)
-        UsersReservationsListLogic.reserved = int(reservation_data[location][item])
+        UsersReservationsListLogic.reserved \
+            = int(reservation_data[location][item])
 
         item_location_data = FileAccess.load_item_location_data(self)
-        UsersReservationsListLogic.available = int(item_location_data[location][item])
+        UsersReservationsListLogic.available \
+            = int(item_location_data[location][item])

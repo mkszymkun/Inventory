@@ -30,13 +30,15 @@ class ListOfLocationsView(tk.Frame):
 
         for location in locations_and_items_data.keys():
             Graphics.location_label(self, location, row)
-            ListOfLocationsLogic.display_location_delete_button(self, location, row)
+            ListOfLocationsLogic.display_location_delete_button(
+                self, location, row)
             row += 1
             Graphics.empty_row(self, row + 1, 1)
 
         location_to_add = tk.Entry(self, width=30)
         location_to_add.grid(row=row+2, column=0)
 
-        ListOfLocationsLogic.display_add_location_button(self, location_to_add, row)
+        ListOfLocationsLogic.display_add_location_button(
+            self, location_to_add, row)
 
         Graphics.empty_row(self, row + 3, 1)

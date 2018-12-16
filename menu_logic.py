@@ -17,7 +17,8 @@ class MenuLogic(tk.Frame):
         self.controller = controller
 
     def display_menu_button(self, text, frame, row):
-        Graphics.menu_button(self, text, lambda: MenuLogic.menu_button_click(self, frame), row)
+        Graphics.menu_button(
+            self, text, lambda: MenuLogic.menu_button_click(self, frame), row)
 
     def menu_button_click(self, frame):
         MenuLogic.clear_selections(self)

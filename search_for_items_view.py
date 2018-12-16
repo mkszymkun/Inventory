@@ -29,4 +29,6 @@ class SearchForItemsView(tk.Frame):
         the_input_search = tk.Entry(self, width=50)
         the_input_search.grid(row=3, column=0, columnspan=4)
 
-        Graphics.search_button(self, lambda: SearchForItemsLogic.find_item(self, the_input_search))
+        Graphics.search_button(
+            self, lambda: SearchForItemsLogic.find_item(
+                self, the_input_search))

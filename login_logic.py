@@ -19,10 +19,12 @@ class LoginLogic(tk.Frame):
         provided_username = username_input_field.get()
         provided_password = password_input_field.get()
 
-        users_and_passwords_data = FileAccess.load_users_and_passwords_data(self)
+        users_and_passwords_data \
+            = FileAccess.load_users_and_passwords_data(self)
 
         if provided_username in users_and_passwords_data.keys():
-            if users_and_passwords_data[provided_username] == provided_password:
+            if users_and_passwords_data[provided_username] \
+                    == provided_password:
                 self.username = provided_username
                 self.controller.show_frame("MenuView")
                 self.controller.show_frame("EmptyFrameBot")

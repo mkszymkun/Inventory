@@ -41,16 +41,21 @@ class ItemsSearchResultsLogic(tk.Frame):
         item_location_data = FileAccess.load_item_location_data(self)
 
         ItemsSearchResultsLogic.reserved = 0
-        ItemsSearchResultsLogic.available = int(item_location_data[location][item])
-        ItemsSearchResultsLogic.reserved_and_available = ItemsSearchResultsLogic.available
+        ItemsSearchResultsLogic.available = \
+            int(item_location_data[location][item])
+        ItemsSearchResultsLogic.reserved_and_available = \
+            ItemsSearchResultsLogic.available
 
         for user in FileAccess.load_obj(self, 'users').keys():
             users_reservations = FileAccess.load_obj(self, user)
             if location in users_reservations.keys():
                 if item in users_reservations[location]:
-                    ItemsSearchResultsLogic.reserved_and_available += int(users_reservations[location][item])
+                    ItemsSearchResultsLogic.reserved_and_available \
+                        += int(users_reservations[location][item])
 
-        ItemsSearchResultsLogic.reserved = ItemsSearchResultsLogic.reserved_and_available - int(item_location_data[location][item])
+        ItemsSearchResultsLogic.reserved = \
+            ItemsSearchResultsLogic.reserved_and_available \
+            - int(item_location_data[location][item])
 
     def display_item_name_button(self, item, location):
 
@@ -59,18 +64,23 @@ class ItemsSearchResultsLogic(tk.Frame):
         reserved_quantity = ItemsSearchResultsLogic.reserved
         available_quantity = ItemsSearchResultsLogic.available
 
-        if item == ItemsSearchResultsLogic.last_chosen_item and location == ItemsSearchResultsLogic.last_chosen_location:
-            Graphics.item_name_button_colored(self, item, available_quantity, full_quantity, reserved_quantity,
-                                              lambda: ItemsSearchResultsLogic.select_search_result(self, item,
-                                                                                                    location), row)
+        if item == ItemsSearchResultsLogic.last_chosen_item \
+                and location == ItemsSearchResultsLogic.last_chosen_location:
+            Graphics.item_name_button_colored(
+                self, item, available_quantity,
+                full_quantity, reserved_quantity,
+                lambda: ItemsSearchResultsLogic.select_search_result(
+                    self, item, location), row)
 
             ItemsSearchResultsLogic.last_chosen_item = ''
             ItemsSearchResultsLogic.item_row += 1
 
         else:
-            Graphics.item_name_button(self, item, available_quantity, full_quantity, reserved_quantity,
-                                      lambda: ItemsSearchResultsLogic.select_search_result(self, item, location),
-                                      row)
+            Graphics.item_name_button(
+                self, item, available_quantity,
+                full_quantity, reserved_quantity,
+                lambda: ItemsSearchResultsLogic.select_search_result(
+                    self, item, location), row)
 
             ItemsSearchResultsLogic.item_row += 1
 
@@ -84,10 +94,14 @@ class ItemsSearchResultsLogic(tk.Frame):
             for listed_item in data[location].keys():
 
                 if item in listed_item:
-                    ItemsSearchResultsLogic.calculate(self, listed_item, location)
+                    ItemsSearchResultsLogic.calculate(
+                        self, listed_item, location)
 
-                    Graphics.login_label(self, location, ItemsSearchResultsLogic.location_row, 0)
+                    Graphics.login_label(
+                        self, location,
+                        ItemsSearchResultsLogic.location_row, 0)
                     ItemsSearchResultsLogic.location_row += 1
 
-                    ItemsSearchResultsLogic.display_item_name_button(self, listed_item, location)
+                    ItemsSearchResultsLogic.display_item_name_button(
+                        self, listed_item, location)
 

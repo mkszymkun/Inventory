@@ -33,9 +33,14 @@ class LoginView(tk.Frame):
         self.last_error_label.grid(row=6, column=1)
 
         Graphics.empty_row(self, 7, 1)
-        Graphics.login_button(self, "Zaloguj", lambda: LoginLogic.log_in(self, input_username, input_password), 8)
-        Graphics.login_button(self, "Załóż konto", lambda: controller.show_frame("RegisterUserView"), 9)
-        Graphics.login_button(self, "Wyjście", lambda: controller.destroy(), 10)
+        Graphics.login_button(
+            self, "Zaloguj", lambda: LoginLogic.log_in(
+                self, input_username, input_password), 8)
+        Graphics.login_button(
+            self, "Załóż konto", lambda: controller.show_frame(
+                "RegisterUserView"), 9)
+        Graphics.login_button(self, "Wyjście",
+                              lambda: controller.destroy(), 10)
 
     def on_show_frame(self, event):
 
