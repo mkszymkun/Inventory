@@ -2,18 +2,16 @@
 
 # Inventory - inventory management program
 
-import tkinter as tk
 from graphics import Graphics
 from list_of_items_logic import ListOfItemsLogic
 from users_reservations_list_logic import UsersReservationsListLogic
 from items_search_results_logic import ItemsSearchResultsLogic
 
 
-class MenuLogic(tk.Frame):
+class MenuLogic:
 
-    def __init__(self, parent, controller):
+    def __init__(self, controller):
 
-        tk.Frame.__init__(self, parent)
         self.controller = controller
 
     def display_menu_button(self, text, frame, row):

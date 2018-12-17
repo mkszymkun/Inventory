@@ -2,16 +2,13 @@
 
 # Inventory - inventory management program
 
-import tkinter as tk
 
-
-class SearchForItemsLogic(tk.Frame):
+class SearchForItemsLogic:
 
     item_to_find = ''
 
-    def __init__(self, parent, controller):
+    def __init__(self, controller):
 
-        tk.Frame.__init__(self, parent)
         self.controller = controller
 
     def find_item(self, user_input):

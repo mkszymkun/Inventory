@@ -7,16 +7,15 @@ from graphics import Graphics
 from file_access import FileAccess
 
 
-class AdditionalButtonsLogic(tk.Frame):
+class AdditionalButtonsLogic:
 
     chosen_location = ''
     chosen_item = ''
     caller = ''
     called = False
 
-    def __init__(self, parent, controller):
+    def __init__(self, controller):
 
-        tk.Frame.__init__(self, parent)
         self.controller = controller
 
     ####################################################################################################################
@@ -158,7 +157,7 @@ class AdditionalButtonsLogic(tk.Frame):
 
         AdditionalButtonsLogic.display_items_operations_button(
             self, "-", lambda: AdditionalButtonsLogic.subtract_quantity_search(
-                self, location, item, the_input_quantity), 3,5)
+                self, location, item, the_input_quantity), 3, 5)
 
         AdditionalButtonsLogic.display_items_operations_button(
             self, "Zarezerwuj",

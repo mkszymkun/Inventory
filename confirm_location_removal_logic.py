@@ -2,16 +2,14 @@
 
 # Inventory - inventory management program
 
-import tkinter as tk
 from file_access import FileAccess
 from graphics import Graphics
 
 
-class ConfirmLocationRemovalLogic(tk.Frame):
+class ConfirmLocationRemovalLogic:
 
-    def __init__(self, parent, controller):
+    def __init__(self, controller):
 
-        tk.Frame.__init__(self, parent)
         self.controller = controller
 
     def remove_location(self, input_location, output_list):

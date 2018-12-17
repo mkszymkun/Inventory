@@ -2,14 +2,13 @@
 
 # Inventory - inventory management program
 
-import tkinter as tk
 from file_access import FileAccess
 from graphics import Graphics
 from additional_buttons_logic import AdditionalButtonsLogic
 from search_for_items_logic import SearchForItemsLogic
 
 
-class ItemsSearchResultsLogic(tk.Frame):
+class ItemsSearchResultsLogic:
 
     last_chosen_item = ''
     last_chosen_location = ''
@@ -20,9 +19,8 @@ class ItemsSearchResultsLogic(tk.Frame):
     reserved_and_available = 0
     available = 0
 
-    def __init__(self, parent, controller):
+    def __init__(self, controller):
 
-        tk.Frame.__init__(self, parent)
         self.controller = controller
 
     def select_search_result(self, item, location):

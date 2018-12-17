@@ -2,16 +2,14 @@
 
 # Inventory - inventory management program
 
-import tkinter as tk
 from file_access import FileAccess
 from graphics import Graphics
 
 
-class LoginLogic(tk.Frame):
+class LoginLogic:
 
-    def __init__(self, parent, controller):
+    def __init__(self, controller):
 
-        tk.Frame.__init__(self, parent)
         self.controller = controller
 
     def log_in(self, username_input_field, password_input_field):

@@ -3,7 +3,6 @@
 # Inventory - inventory management program
 
 import tkinter as tk
-import pickle
 
 
 class Graphics(tk.Frame):
@@ -75,13 +74,11 @@ class Graphics(tk.Frame):
 
     def location_delete_button(self, command, row):
         tk.Button(self, text="Usuń", width=30, height=2, relief='groove',
-                                 command=command).grid(row=row, column=1)
+                  command=command).grid(row=row, column=1)
 
     def items_operations_button(self, text, command, row, col):
         tk.Button(self, text=text, relief='groove',
                   command=command).grid(row=row, column=col)
-
-
 
     def location_name_button_colored(self, text, command, row):
         tk.Button(self, text=text, width=20, height=3, relief='groove',
@@ -92,8 +89,6 @@ class Graphics(tk.Frame):
         tk.Button(self, text=text, width=20, height=3, relief='groove',
                   command=command).grid(row=row, column=0,
                                         rowspan=2, sticky='w')
-
-
 
     def item_name_button_colored(self, k, v, reserved_and_available,
                                  reserved, command, row):
@@ -108,14 +103,12 @@ class Graphics(tk.Frame):
             k, v, reserved_and_available, reserved), width=25, relief='groove',
                   command=command).grid(row=row, column=1, columnspan=2)
 
-
     def adding_new_item_label(self, text, row, col):
         tk.Label(self, text=text).grid(row=row, column=col)
 
     def adding_new_item_button(self, text, command, row):
         tk.Button(self, text=text, relief='groove', command=command).grid(
             row=row, column=3, columnspan=1, sticky='w')
-
 
     def reserved_item_name_button_colored(self, item, reserved, available,
                                           command, row):
@@ -137,7 +130,6 @@ class Graphics(tk.Frame):
     def search_button(self, command):
         tk.Button(self, text="Szukaj", width=50, height=3, relief='groove',
                   command=command).grid(row=4, column=0, columnspan=4)
-
 
     def small_title_label(self, text):
         tk.Label(self, text=text, font="Arial 10", width=30,

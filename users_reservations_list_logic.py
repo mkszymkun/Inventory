@@ -2,13 +2,12 @@
 
 # Inventory - inventory management program
 
-import tkinter as tk
 from file_access import FileAccess
 from graphics import Graphics
 from additional_buttons_logic import AdditionalButtonsLogic
 
 
-class UsersReservationsListLogic(tk.Frame):
+class UsersReservationsListLogic:
 
     last_chosen_item = ''
     last_chosen_location = ''
@@ -22,9 +21,8 @@ class UsersReservationsListLogic(tk.Frame):
     available = 0
     reserved = 0
 
-    def __init__(self, parent, controller):
+    def __init__(self, controller):
 
-        tk.Frame.__init__(self, parent)
         self.controller = controller
 
     def display_location_name_button(self, location):

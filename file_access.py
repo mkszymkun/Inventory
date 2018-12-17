@@ -2,14 +2,12 @@
 
 # Inventory - inventory management program
 
-import tkinter as tk
 import pickle
 
 
-class FileAccess(tk.Frame):
+class FileAccess:
 
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
+    def __init__(self, controller):
         self.controller = controller
 
     # Saving/loading data
