@@ -24,7 +24,7 @@ class AdditionalButtonsLogic:
 
     def print_buttons(self, key, item):
 
-        Graphics.small_title_label(self, 'Zmiana ilości')
+        Graphics.small_title_label(self, 'OPCJE')
 
         the_input_quantity = tk.Entry(self, width=3)
         the_input_quantity.grid(row=3, column=0)
@@ -39,7 +39,7 @@ class AdditionalButtonsLogic:
             lambda: AdditionalButtonsLogic.subtract_quantity_from_available(
                 self, key, item, the_input_quantity), 3, 2)
 
-        AdditionalButtonsLogic.display_items_operations_button(
+        AdditionalButtonsLogic.display_items_operations_button_2(
             self, "Zarezerwuj",
             lambda: AdditionalButtonsLogic.reserve_quantity(
                 self, key, item, the_input_quantity), 3, 3)
@@ -66,6 +66,9 @@ class AdditionalButtonsLogic:
 
     def display_items_operations_button(self, text, command, row, col):
         Graphics.items_operations_button(self, text, command, row, col)
+
+    def display_items_operations_button_2(self, text, command, row, col):
+        Graphics.items_operations_button_2(self, text, command, row, col)
 
     def add_quantity_to_available(self, user_location,
                                   user_item, user_quantity):
@@ -146,23 +149,23 @@ class AdditionalButtonsLogic:
 
     def print_buttons_search(self, location, item):
 
-        Graphics.small_title_label(self, 'Zmiana ilości')
+        Graphics.small_title_label(self, 'OPCJE')
 
         the_input_quantity = tk.Entry(self, width=3)
         the_input_quantity.grid(row=3, column=0)
 
         AdditionalButtonsLogic.display_items_operations_button(
             self, "+", lambda: AdditionalButtonsLogic.add_quantity_search(
-                self, location, item, the_input_quantity), 3, 4)
+                self, location, item, the_input_quantity), 3, 1)
 
         AdditionalButtonsLogic.display_items_operations_button(
             self, "-", lambda: AdditionalButtonsLogic.subtract_quantity_search(
-                self, location, item, the_input_quantity), 3, 5)
+                self, location, item, the_input_quantity), 3, 2)
 
-        AdditionalButtonsLogic.display_items_operations_button(
+        AdditionalButtonsLogic.display_items_operations_button_2(
             self, "Zarezerwuj",
             lambda: AdditionalButtonsLogic.reserve_quantity_search(
-                self, location, item, the_input_quantity), 3, 6)
+                self, location, item, the_input_quantity), 3, 3)
 
         Graphics.delete_item_button(
             self, "Usuń przedmiot",
@@ -247,11 +250,11 @@ class AdditionalButtonsLogic:
             lambda: AdditionalButtonsLogic.undo_reserve_quantity(
                 self, key, item, the_input_quantity), 3, 1)
 
-        AdditionalButtonsLogic.display_items_operations_button(
+        AdditionalButtonsLogic.display_items_operations_button_2(
             self, "Zabierz", lambda: AdditionalButtonsLogic.use_some(
                 self, key, item, the_input_quantity), 3,2)
 
-        AdditionalButtonsLogic.display_items_operations_button(
+        AdditionalButtonsLogic.display_items_operations_button_2(
             self, "Odłóż wszystkie",
             lambda: AdditionalButtonsLogic.undo_reserve(
                 self, key, item), 3, 3)
@@ -273,6 +276,9 @@ class AdditionalButtonsLogic:
                     - int(quantity))
             else:
                 output_list[user_location.lower()].pop(user_item)
+                if output_list[user_location] == {}:
+                    output_list.pop(user_location)
+                    AdditionalButtonsLogic.chosen_location = ''
             FileAccess.save_user_data(self, output_list)
 
             AdditionalButtonsLogic.called = True
@@ -291,6 +297,9 @@ class AdditionalButtonsLogic:
                     - int(quantity))
             else:
                 private_list[user_location].pop(user_item)
+                if private_list[user_location] == {}:
+                    private_list.pop(user_location)
+                    AdditionalButtonsLogic.chosen_location = ''
             FileAccess.save_user_data(self, private_list)
 
             AdditionalButtonsLogic.called = True
@@ -300,6 +309,9 @@ class AdditionalButtonsLogic:
 
         private_list = FileAccess.load_user_data(self)
         private_list[user_location].pop(user_item)
+        if private_list[user_location] == {}:
+            private_list.pop(user_location)
+            AdditionalButtonsLogic.chosen_location = ''
         FileAccess.save_user_data(self, private_list)
 
         AdditionalButtonsLogic.called = True
@@ -332,6 +344,9 @@ class AdditionalButtonsLogic:
         output_list = FileAccess.load_user_data(self)
         quantity = output_list[user_location.lower()][user_item]
         output_list[user_location.lower()].pop(user_item)
+        if output_list[user_location] == {}:
+            output_list.pop(user_location)
+            AdditionalButtonsLogic.chosen_location = ''
         FileAccess.save_user_data(self, output_list)
 
         global_list = FileAccess.load_item_location_data(self)

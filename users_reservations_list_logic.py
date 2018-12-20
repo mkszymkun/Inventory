@@ -57,11 +57,13 @@ class UsersReservationsListLogic:
 
         UsersReservationsListLogic.row = 3
 
-        for item, available_quantity in item_location_data[location].items():
-            UsersReservationsListLogic.calculate(self, item, location)
+        if location in item_location_data.keys():
 
-            UsersReservationsListLogic.display_item_name_button(
-                self, item, location)
+            for item, available_quantity in item_location_data[location].items():
+                UsersReservationsListLogic.calculate(self, item, location)
+
+                UsersReservationsListLogic.display_item_name_button(
+                    self, item, location)
 
         Graphics.empty_row(self, row, 1)
 

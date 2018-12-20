@@ -22,13 +22,13 @@ class MenuView(tk.Frame):
             self, "Materiały", "ListOfItemsView", 3)
 
         MenuLogic.display_menu_button(
-            self, "Wyszukiwarka","SearchForItemsView", 4)
+            self, "Wyszukiwarka", "SearchForItemsView", 4)
 
         MenuLogic.display_menu_button(
             self, "Magazyny", "ListOfLocationsView", 5)
 
         MenuLogic.display_menu_button(
-            self, "Moje rezerwacje","UsersReservationsListView", 6)
+            self, "Moje rezerwacje", "UsersReservationsListView", 6)
 
         Graphics.empty_row(self, 7, 1)
 

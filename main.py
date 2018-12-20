@@ -3,9 +3,7 @@
 # Inventory - inventory management program
 
 import tkinter as tk
-import pickle
 from file_access import FileAccess
-from graphics import Graphics
 
 from menu_view import MenuView
 from empty_frame_view import EmptyFrameView
@@ -26,32 +24,34 @@ class Main(tk.Tk):
     def __init__(self, *args, **kwargs):
 
         tk.Tk.__init__(self, *args, **kwargs)
-        container = tk.Frame(self, width=100, height=100)
+        bgcolor = '#303030'
 
-        container.pack(padx=2, pady=2, expand=True)
+        container = tk.Frame(self, bg=bgcolor)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        container.grid(row=0, column=0, sticky="nsew")
 
-        container.grid_rowconfigure(0, weight=0)
-        container.grid_columnconfigure(0, weight=0)
-
-        container_top = tk.Frame(container, background="green")
-        container_bot = tk.Frame(container, background="yellow")
-        container_left = tk.Frame(container, background="red")
-        container_right = tk.Frame(container, background="blue")
-
+        container_top = tk.Frame(container, bg=bgcolor)
         container_top.grid(row=0, column=0, columnspan=3)
+
+        container_left = tk.Frame(container, bg=bgcolor)
         container_left.grid(row=1, column=0)
+
+        container_bot = tk.Frame(container, bg=bgcolor)
         container_bot.grid(row=1, column=1)
+
+        container_right = tk.Frame(container, bg=bgcolor)
         container_right.grid(row=1, column=2)
 
         try:
             FileAccess.load_item_location_data(self)
-        except:
+        except FileNotFoundError:
             item_location_data = {}
             FileAccess.save_item_location_data(self, item_location_data)
 
         try:
             FileAccess.load_users_and_passwords_data(self)
-        except:
+        except FileNotFoundError:
             users = {}
             FileAccess.save_users_and_passwords_data(self, users)
 
@@ -68,33 +68,41 @@ class Main(tk.Tk):
             self.frames[cont] = frame
 
             frame.grid(row=0, column=0, sticky="nsew")
+            frame.config(bg=bgcolor)
 
         self.frames["EmptyFrameLeft"] = EmptyFrameView(parent=container_left,
                                                        controller=self)
+        self.frames["EmptyFrameLeft"].config(bg=bgcolor)
         self.frames["EmptyFrameLeft"].grid(row=0, column=0, sticky="nsew")
 
         self.frames["EmptyFrameRight"] = EmptyFrameView(parent=container_right,
                                                         controller=self)
+        self.frames["EmptyFrameRight"].config(bg=bgcolor)
         self.frames["EmptyFrameRight"].grid(row=0, column=0, sticky="nsew")
 
         self.frames["AdditionalButtonsView"] = AdditionalButtonsView(
             parent=container_right, controller=self)
+        self.frames["AdditionalButtonsView"].config(bg=bgcolor)
         self.frames["AdditionalButtonsView"].grid(row=0, column=0,
                                                   sticky="nsew")
 
         self.frames["EmptyFrameTop"] = EmptyFrameView(parent=container_top,
                                                       controller=self)
+        self.frames["EmptyFrameTop"].config(bg=bgcolor)
         self.frames["EmptyFrameTop"].grid(row=0, column=0, sticky="nsew")
 
         self.frames["EmptyFrameBot"] = EmptyFrameView(parent=container_bot,
                                                       controller=self)
+        self.frames["EmptyFrameBot"].config(bg=bgcolor)
         self.frames["EmptyFrameBot"].grid(row=0, column=0, sticky="nsew")
 
         self.frames["MenuView"] = MenuView(parent=container_left,
                                            controller=self)
-        self.frames["Title"] = TitleView(parent=container_top, controller=self)
-
+        self.frames["MenuView"].config(bg=bgcolor)
         self.frames["MenuView"].grid(row=0, column=0, sticky="nsew")
+
+        self.frames["Title"] = TitleView(parent=container_top, controller=self)
+        self.frames["Title"].config(bg=bgcolor)
         self.frames["Title"].grid(row=0, column=0, sticky="nsew")
 
         self.show_frame("EmptyFrameLeft")
@@ -113,5 +121,6 @@ class Main(tk.Tk):
 
 
 app = Main()
+app.config(bg='#303030')
 
 app.mainloop()

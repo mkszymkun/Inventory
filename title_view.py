@@ -3,6 +3,7 @@
 # Inventory - inventory management program
 
 import tkinter as tk
+from tkinter import font as tkfont
 
 
 class TitleView(tk.Frame):
@@ -12,6 +13,11 @@ class TitleView(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        label_header = tk.Label(
-            self, text="INVENTORY MANAGER", font='Arial 15 bold',
-            width=130, height=5, relief='groove').grid(row=1, column=0)
+        font = tkfont.Font(family='Ubuntu', size=25, weight="bold")
+        image = tk.PhotoImage(file="pictures/labels/title.png")
+        label = tk.Label(self, text="INVENTORY MANAGER", font=font, image=image,
+                         borderwidth='0', bg='#303030',  fg='white',
+                         activebackground='#303030',  compound='center',
+                         highlightbackground='#303030')
+        label.image = image
+        label.grid(row=1, column=0)

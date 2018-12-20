@@ -42,6 +42,10 @@ class LoginView(tk.Frame):
         Graphics.login_button(self, "Wyjście",
                               lambda: controller.destroy(), 10)
 
+        for i in range(11, 22):
+            Graphics.empty_row(self, i, 1)
+
+
     def on_show_frame(self, event):
 
         self.last_error_label.destroy()

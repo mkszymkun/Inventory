@@ -125,7 +125,7 @@ class ListOfItemsLogic:
 
         Graphics.adding_new_item_label(self, "Nazwa:",
                                        ListOfItemsLogic.locations_row, 1)
-        Graphics.adding_new_item_label(self, "Ilość:",
+        Graphics.adding_new_item_label_2(self, "Ilość:",
                                        ListOfItemsLogic.locations_row, 2)
 
         the_input_item = tk.Entry(self, width=25)
