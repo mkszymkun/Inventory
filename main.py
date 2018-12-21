@@ -25,18 +25,29 @@ class Main(tk.Tk):
 
         tk.Tk.__init__(self, *args, **kwargs)
         bgcolor = '#303030'
+        bordercolor ='#202020'
 
+        self.title("Inventory manager")
         self.config(bg=bgcolor)
 
         container_top = tk.Frame(self, bg=bgcolor)
-        container_left = tk.Frame(self, bg=bgcolor)
-        container_bot = tk.Frame(self, bg=bgcolor)
-        container_right = tk.Frame(self, bg=bgcolor)
+        container_left = tk.Frame(self, bg=bgcolor,
+                                  highlightbackground=bordercolor,
+                                  highlightcolor=bordercolor,
+                                  highlightthickness=2, bd=0)
+        container_bot = tk.Frame(self, bg=bgcolor,
+                                 highlightbackground=bordercolor,
+                                 highlightcolor=bordercolor,
+                                 highlightthickness=2, bd=0)
+        container_right = tk.Frame(self, bg=bgcolor,
+                                   highlightbackground=bordercolor,
+                                   highlightcolor=bordercolor,
+                                   highlightthickness=2, bd=0)
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=2)
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(0, weight=2)
+        self.grid_columnconfigure(1, weight=2)
         self.grid_columnconfigure(2, weight=1)
 
         container_top.grid(row=0, column=0, columnspan=3, sticky='ew')

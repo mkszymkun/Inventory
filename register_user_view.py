@@ -36,7 +36,9 @@ class RegisterUserView(tk.Frame):
         input_pword2.grid(row=7, column=2)
 
         self.last_error_label = tk.Label(self)
-        self.last_error_label.grid(row=8, column=1)
+        self.last_error_label.grid(row=8, column=2)
+
+        Graphics.display_login_error_placeholder(self, 8, 2)
 
         Graphics.empty_row(self, 9, 1)
         Graphics.login_button(

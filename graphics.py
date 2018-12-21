@@ -92,6 +92,15 @@ class Graphics(tk.Frame):
         self.last_error_label.image = image
         self.last_error_label.grid(row=6, column=2)
 
+    def display_login_error_placeholder(self, row, col):
+        image = tk.PhotoImage(file="pictures/labels/error_label_blank.png")
+        placeholder = tk.Label(self, text=' ', image=image, fg='white',
+                           borderwidth='0', bg='#303030', compound='center',
+                           activebackground='#303030',
+                           highlightbackground='#303030')
+        placeholder.image = image
+        placeholder.grid(row=row, column=col)
+
 
     def display_registration_error(self, error_message):
         self.last_error_label.destroy()
