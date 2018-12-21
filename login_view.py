@@ -29,7 +29,7 @@ class LoginView(tk.Frame):
         input_password = tk.Entry(self, show='*')
         input_password.grid(row=5, column=2)
 
-        self.last_error_label = tk.Label(self)
+        self.last_error_label = tk.Label(self,  bg='#303030')
         self.last_error_label.grid(row=6, column=1)
 
         Graphics.empty_row(self, 7, 1)

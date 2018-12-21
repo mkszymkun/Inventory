@@ -13,15 +13,14 @@ class Graphics(tk.Frame):
         self.controller = controller
 
     def empty_row(self, row, col):
-        tk.Label(self).grid(row=row, column=col)
+        label = tk.Label(self, bg='#303030', fg='white')
+        label.grid(row=row, column=col)
 
     def login_label(self, text, row, col):
         font = tkfont.Font(family='Ubuntu', size=15, weight="bold")
         image = tk.PhotoImage(file="pictures/buttons/login_button.png")
         label = tk.Label(self, text=text, font=font, image=image, fg='white',
-                           borderwidth='0', bg='#303030', compound='center',
-                           activebackground='#303030',
-                           highlightbackground='#303030')
+                           borderwidth='0', bg='#303030', compound='center')
         label.image = image
         label.grid(row=row, column=col)
 
