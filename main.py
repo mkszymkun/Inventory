@@ -35,7 +35,15 @@ class Main(tk.Tk):
                                   highlightbackground=bordercolor,
                                   highlightcolor=bordercolor,
                                   highlightthickness=2, bd=0)
+        container_left_separator = tk.Frame(self, bg=bgcolor, width=50,
+                                 highlightbackground=bordercolor,
+                                 highlightcolor=bordercolor,
+                                 highlightthickness=2, bd=0)
         container_bot = tk.Frame(self, bg=bgcolor,
+                                 highlightbackground=bordercolor,
+                                 highlightcolor=bordercolor,
+                                 highlightthickness=2, bd=0)
+        container_right_separator = tk.Frame(self, bg=bgcolor, width=50,
                                  highlightbackground=bordercolor,
                                  highlightcolor=bordercolor,
                                  highlightthickness=2, bd=0)
@@ -46,14 +54,18 @@ class Main(tk.Tk):
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=2)
-        self.grid_columnconfigure(0, weight=2)
+        self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=2)
         self.grid_columnconfigure(2, weight=1)
+        self.grid_columnconfigure(3, weight=2)
+        self.grid_columnconfigure(4, weight=1)
 
-        container_top.grid(row=0, column=0, columnspan=3, sticky='ew')
+        container_top.grid(row=0, column=0, columnspan=5, sticky='ew')
         container_left.grid(row=1, column=0, sticky='ns')
-        container_bot.grid(row=1, column=1, sticky='ns')
-        container_right.grid(row=1, column=2, sticky='ns')
+        container_left_separator.grid(row=1, column=1, sticky='ns')
+        container_bot.grid(row=1, column=2, sticky='ns')
+        container_right_separator.grid(row=1, column=3, sticky='ns')
+        container_right.grid(row=1, column=4, sticky='ns')
 
         try:
             FileAccess.load_item_location_data(self)

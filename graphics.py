@@ -43,7 +43,7 @@ class Graphics(tk.Frame):
         button = tk.Button(self, text=text, image=image,
                            borderwidth='0', bg='#303030', font = font, fg='white',
                            activebackground='#303030', compound='center',
-                           highlightbackground='#303030', command=command)
+                           highlightbackground='#303030', command=command, anchor='e')
         button.image = image
         button.grid(row=row, column=1)
 
@@ -214,7 +214,7 @@ class Graphics(tk.Frame):
                            activebackground='#303030', compound='center',
                            highlightbackground='#303030', command=command)
         button.image = image
-        button.grid(row=row, column=1, columnspan=2)
+        button.grid(row=row, column=2, columnspan=2)
 
     def item_name_button(self, k, v, reserved_and_available, reserved,
                          command, row):
@@ -226,7 +226,7 @@ class Graphics(tk.Frame):
                            activebackground='#303030', compound='center',
                            highlightbackground='#303030', command=command)
         button.image = image
-        button.grid(row=row, column=1, columnspan=2)
+        button.grid(row=row, column=2, columnspan=2)
 
     def adding_new_item_label(self, text, row, col):
         font = tkfont.Font(family='Ubuntu', size=15)
@@ -291,7 +291,7 @@ class Graphics(tk.Frame):
                          highlightbackground='#303030',
                  relief='groove')
         label.image = image
-        label.grid(row=1, column=0, columnspan=2)
+        label.grid(row=1, column=0, columnspan=4)
 
     def search_button(self, command):
         font = tkfont.Font(family='Ubuntu', size=15)

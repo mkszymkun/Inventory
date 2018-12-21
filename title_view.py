@@ -20,4 +20,4 @@ class TitleView(tk.Frame):
                          activebackground='#303030',  compound='center',
                          highlightbackground='#303030')
         label.image = image
-        label.grid(row=0, column=0, columnspan=3)
+        label.grid(row=0, column=0, columnspan=5)

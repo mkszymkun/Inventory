@@ -240,7 +240,7 @@ class AdditionalButtonsLogic:
 
     def print_buttons_private(self, key, item):
 
-        Graphics.small_title_label(self, 'Zmiana ilości')
+        Graphics.small_title_label(self, 'OPCJE')
 
         the_input_quantity = tk.Entry(self, width=3)
         the_input_quantity.grid(row=3, column=0)
@@ -250,7 +250,7 @@ class AdditionalButtonsLogic:
             lambda: AdditionalButtonsLogic.undo_reserve_quantity(
                 self, key, item, the_input_quantity), 3, 1)
 
-        AdditionalButtonsLogic.display_items_operations_button_2(
+        AdditionalButtonsLogic.display_items_operations_button(
             self, "Zabierz", lambda: AdditionalButtonsLogic.use_some(
                 self, key, item, the_input_quantity), 3,2)
 

@@ -124,13 +124,13 @@ class ListOfItemsLogic:
     def display_new_item_buttons(self, key):
 
         Graphics.adding_new_item_label(self, "Nazwa:",
-                                       ListOfItemsLogic.locations_row, 1)
+                                       ListOfItemsLogic.locations_row, 0)
         Graphics.adding_new_item_label_2(self, "Ilość:",
                                        ListOfItemsLogic.locations_row, 2)
 
         the_input_item = tk.Entry(self, width=25)
         the_input_item.grid(row=ListOfItemsLogic.locations_row + 1,
-                            column=1, sticky='w')
+                            column=0, sticky='w')
 
         the_input_quantity = tk.Entry(self, width=5)
         the_input_quantity.grid(row=ListOfItemsLogic.locations_row + 1,
