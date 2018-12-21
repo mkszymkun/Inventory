@@ -15,9 +15,9 @@ class TitleView(tk.Frame):
 
         font = tkfont.Font(family='Ubuntu', size=25, weight="bold")
         image = tk.PhotoImage(file="pictures/labels/title.png")
-        label = tk.Label(self, text="INVENTORY MANAGER", font=font, image=image,
+        label = tk.Label(text="INVENTORY MANAGER", font=font, image=image,
                          borderwidth='0', bg='#303030',  fg='white',
                          activebackground='#303030',  compound='center',
                          highlightbackground='#303030')
         label.image = image
-        label.grid(row=1, column=0)
+        label.grid(row=0, column=0, columnspan=3)

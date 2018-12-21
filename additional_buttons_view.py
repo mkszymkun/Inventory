@@ -34,6 +34,3 @@ class AdditionalButtonsView(tk.Frame):
             AdditionalButtonsLogic.print_buttons_search\
                 (self, AdditionalButtonsLogic.chosen_location,
                  AdditionalButtonsLogic.chosen_item)
-
-        for i in range(11, 33):
-            Graphics.empty_row(self, i, 1)

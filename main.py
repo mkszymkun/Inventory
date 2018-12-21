@@ -26,22 +26,23 @@ class Main(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         bgcolor = '#303030'
 
-        container = tk.Frame(self, bg=bgcolor)
-        self.grid_rowconfigure(1, weight=1)
+        self.config(bg=bgcolor)
+
+        container_top = tk.Frame(self, bg=bgcolor)
+        container_left = tk.Frame(self, bg=bgcolor)
+        container_bot = tk.Frame(self, bg=bgcolor)
+        container_right = tk.Frame(self, bg=bgcolor)
+
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=2)
         self.grid_columnconfigure(0, weight=1)
-        container.grid(row=0, column=0, sticky="nsew")
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=1)
 
-        container_top = tk.Frame(container, bg=bgcolor)
-        container_top.grid(row=0, column=0, columnspan=3)
-
-        container_left = tk.Frame(container, bg=bgcolor)
-        container_left.grid(row=1, column=0)
-
-        container_bot = tk.Frame(container, bg=bgcolor)
-        container_bot.grid(row=1, column=1)
-
-        container_right = tk.Frame(container, bg=bgcolor)
-        container_right.grid(row=1, column=2)
+        container_top.grid(row=0, column=0, columnspan=3, sticky='ew')
+        container_left.grid(row=1, column=0, sticky='ns')
+        container_bot.grid(row=1, column=1, sticky='ns')
+        container_right.grid(row=1, column=2, sticky='ns')
 
         try:
             FileAccess.load_item_location_data(self)
@@ -86,11 +87,6 @@ class Main(tk.Tk):
         self.frames["AdditionalButtonsView"].grid(row=0, column=0,
                                                   sticky="nsew")
 
-        self.frames["EmptyFrameTop"] = EmptyFrameView(parent=container_top,
-                                                      controller=self)
-        self.frames["EmptyFrameTop"].config(bg=bgcolor)
-        self.frames["EmptyFrameTop"].grid(row=0, column=0, sticky="nsew")
-
         self.frames["EmptyFrameBot"] = EmptyFrameView(parent=container_bot,
                                                       controller=self)
         self.frames["EmptyFrameBot"].config(bg=bgcolor)
@@ -121,6 +117,5 @@ class Main(tk.Tk):
 
 
 app = Main()
-app.config(bg='#303030')
 
 app.mainloop()
