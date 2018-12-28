@@ -42,7 +42,7 @@ class RegisterUserView(tk.Frame):
 
         Graphics.empty_row(self, 9, 1)
         Graphics.login_button(
-            self, "Zarejestruj", lambda: RegisterUserLogic.register_user(
+            self, "Zarejestruj", lambda: RegisterUserLogic.check_registration_data(
                 self, input_user, input_pword, input_pword2), 10)
         Graphics.login_button(
             self, "Wróć", lambda: controller.show_frame("LoginView"), 11)
